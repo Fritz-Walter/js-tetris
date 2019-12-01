@@ -1,0 +1,47 @@
+canvas, ul {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0 !important;
+  padding: 0 !important;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+canvas {
+  z-index: 1;
+  background-color: rgb(20,6,67);
+}
+/*
+#left-background {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  background-color: rgb(16,115,196);
+  z-index: 1;
+}
+*/
+h1 {
+  margin: 0;
+}
+
+h6 {
+  margin: 0;
+  margin-bottom: 1em;
+}
+html, body {
+  background-color: rgb(16,155,196);
+  overflow: hidden;
+  height: 100%;
+}
+
+ul {
+  z-index: 2;
+}
+
+ul li {
+  list-style: none;
+  color: rgb(16,155,196);
+}

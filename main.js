@@ -1,1 +1,2 @@
-alert('test');
+//alert('test');
+//set width and height of html objs

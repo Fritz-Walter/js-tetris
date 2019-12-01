@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href=".\stylesheet.css">
-    <title>Tetris</title>
+    <title> Tetris </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <script type="text/javascript" src=".\main.js"></script>
-    <div name="ui-div">
-        fdas
-    </div>
+
+    <ul id="list">
+      <li id="menu_tetris"><h1>Tetris</h1><h6>by Fritz Walter</h6></li>
+      <li id="menu_game_over_screen"><h1>Game Over</h1></li>
+      <li id="menu_new_game" onclick="new_game();"                         >new game</li>
+      <li id="menu_level">Level: <input type="number" id="input_level" value="0"></input></li>
+      <li id="menu_start_game" onclick="new_game_start();" >start</li>
+      <li id="menu_resume_game" onclick="resume();">Resume</li>
+      <li id="menu_options" onclick="options();">options</li>
+      <li id="menu_language" onclick="language_menu();"                         >language</li>
+      <li id="menu_score"></li>
+      <li id="menu_language_englisch" onclick="language = englisch;loadEnglisch();menu_main();">englisch</li>
+      <li id="menu_language_german" onclick="language= german;loadGerman();menu_main();">german</li>
+      <li id="menu_options_fastdown" onclick="keychange('fastdown');">fastdown: </li>
+      <li id="menu_options_rotateCounterClock" onclick="keychange('rotateCounterClock');">rotate counter clock</li>
+      <li id="menu_options_rotateClock" onclick="keychange('rotateClock');">rotate clockwise: </li>
+      <li id="menu_options_moveLeft" onclick="keychange('moveLeft');">move left: </li>
+      <li id="menu_options_moveRight" onclick="keychange('moveRight');">move Right: </li>
+      <li id="menu_options_hold" onclick="keychange('hold');">hold: </li>
+      <li id="menu_options_pause" onclick="keychange('pause');">pause: </li>
+      <li id="menu_main_menu" onclick="menu_main()">go to mainmenu</li>
+    </ul>
+    <script type="text/javascript" src="./p5/p5.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./game.js"  charset="utf-8"></script>
+    <script type="text/javascript" src="./englisch.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./german.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./menu.js"  charset="utf-8"></script>
+    <link id="css" rel="stylesheet" type="text/css" href="./main.css">
+
   </body>
 </html>
