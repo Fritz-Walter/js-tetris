@@ -1,3 +1,3 @@
 # js-tetris
- tetris in javascript\n
+ tetris in javascript
  with the p5.js libary
