@@ -136,16 +136,15 @@ function pauseFn() {
   pauseMenu();
 }
 
-function collisionCheck(vector, cRotation = rotation) {
+function collisionCheck(vector, cRotation = rotation) { // returns true if path is clear
   if(tetromino == null)
     return false
   else
     return tetrominoes[tetromino].rotations[cRotation].every( (offset) => {
   return arr[10*round(curY + offset.y + vector.y) + curX + offset.x + vector.x] == '#' &&
-        // arr[10*floor(curY + offset.y + vector.y) + curX + offset.x + vector.x] == '#' &&
-         arr[10* ceil(curY + offset.y + vector.y) + curX + offset.x + vector.x] == '#' &&
+         arr[10* ceil(curY + offset.y + vector.y) + curX + offset.x + vector.x] == '#' && // check for placed blocks
          curX + offset.x + vector.x < 10 &&
-         curX + offset.x + vector.x >= 0 &&
+         curX + offset.x + vector.x >= 0 &&   // check if it's still in the grid
          curY + offset.y + vector.y <= 19})
 }
 
@@ -158,7 +157,7 @@ function drawTetromino(_tetromino = tetromino, _rotation = rotation, _x = curX, 
 
 function calRotate(a) {
   a += rotation;
-  a = ((a < 0) ? -a + 6 : a);
+  a = ((a < 0) ? -a + 6 : a); // rotation must be < 4 and >= 0
   a = ((a > 3) ? a % 4 : a);
   return a;
 }
@@ -175,7 +174,8 @@ function gameRoutine() {
     placeTime = Date.now();
   }
 
-  if (placeTime != null && placeTime < Date.now() - 1000){
+  if (placeTime != null && placeTime < Date.now() - 1000/(level+1)){
+    // pushing the teromino on the array
     tetrominoes[tetromino].rotations[rotation].forEach( (offset) => {arr[curX + offset.x + 10 * (round(curY) + offset.y)] = tetrominoes[tetromino].color;});
     newTetromino();
     holdBlocked = true;
@@ -188,7 +188,7 @@ function gameRoutine() {
     arr.slice(i*10, (i+1)*10).forEach( (a) => {if (a == '#') {count += 1;}});
     if (count == 0) {
       arr.splice(i*10, 10);
-      arr = ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#',  ...arr];
+      arr = ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#',  ...arr];  // clearing a line
       newLineClear++;
     }
   }
@@ -225,11 +225,6 @@ function gameKeyRoutine() {
 
   if(lastFrame - keyDown >= 100)
   {
-    if(keyIsDown(65))
-    {
-       grid = !grid;  //debuging
-       keyDown = Date.now();
-    }
     if(keyIsDown(keyboardLayout.rotateCounterClock) && collisionCheck({x: 0, y: 0}, calRotate(+1)))
     {
       if(!keyIsDown(keyboardLayout.rotateClock))
@@ -245,9 +240,8 @@ function gameKeyRoutine() {
     }
     if(keyIsDown(keyboardLayout.moveLeft))
     {
-     // console.log(collisionCheck({x: -1, y: 0}), ceil(curX), floor(curY));
       if(!keyIsDown(keyboardLayout.moveRight) && collisionCheck({x: -1, y: 0}))
-      {  //  arr[10*(curY + offset.y) + curX + offset.x - 1 == #
+      {
         if(!tetrominoes[tetromino].rotations[rotation].every( (offset) => { return arr[10*floor(curY + offset.y) + curX + offset.x -1] == '#'})) {
           curY = round(curY);
         }
@@ -271,7 +265,6 @@ function gameKeyRoutine() {
      else {
       hold = [tetromino, tetromino = hold][0];
       holdRotation = [rotation, rotation = holdRotation][0]
-      //[hold, holdRotation] = [tetromino, rotation];
     }
     keyDown = Date.now();
     holdBlocked = false;
@@ -282,8 +275,6 @@ function gameKeyRoutine() {
 }
 
 function gameDraw() {
-//  clear();
-
   //ui
   fill(16,115,196);
   rect(2/3*width, 0, 1/3*width, height);
@@ -300,7 +291,7 @@ function gameDraw() {
     if(hold == 0) {
       if(holdRotation  % 2 == 0) {
         drawTetromino(hold, holdRotation, 17/24*width, 1.5/32*height, 3/64*height);
-      } else {  //todo warum ???
+      } else {
         drawTetromino(hold, holdRotation, 299/576*height, 1/32*height, 3/64*height);
       }
     } else if(hold == 3) {
@@ -321,18 +312,8 @@ function gameDraw() {
     }
   }
 
-
   fill(105,50,107);
-//  textSize(20);
   text(`Level: ${level}\nScore: ${score}\nLines: ${linesCleared}`, 17/24*width, 15/64*height, width, 16/32*height);
-
-  if(grid)
-  {
-    for(let i = 0; i <= 10; i++)
-      line(game_width/10*i, 0, game_width/10*i, height);
-    for(let i = 0; i <= 20; i++)
-      line(0, height/20*i, game_width, height/20*i);
-  }
 
   for(let i = 0; i < 200; i++)
     if(arr[i] != '#') {
@@ -346,7 +327,6 @@ function gameDraw() {
 
 function draw() {
   clear();
-  //gameRoutine();
 }
 
 function start_new() {
@@ -362,15 +342,15 @@ function start() {
   let time_diff = Date.now() - lastFrame;
   pause = (pause == null) ? null : (pause + time_diff);
   placeTime = (placeTime == null) ? null : (placeTime + time_diff);
-  timeStamp += time_diff; // debuging
+  timeStamp += time_diff;
   keyDown += time_diff;
   mouseDown += time_diff;
   loop();
   draw = () => {
     clear();
     gameRoutine();
-  }/*
-*/
+  }
+
 }
 
 function stop() {
@@ -379,9 +359,3 @@ function stop() {
 
   };
 }
-//draw();
-/*
-todo:
-  high score cookies
-  speed
-*/
